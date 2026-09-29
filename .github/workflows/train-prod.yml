@@ -68,7 +68,9 @@ jobs:
       - name: Stream prod training job
         continue-on-error: true
         run: |
-          az ml job stream --name "${{ steps.train.outputs.job_name }}"
+          # Stream logs, but don't fail the workflow if padding error occurs
+          az ml job stream --name "${{ steps.train.outputs.job_name }}" || true
+
 
       - name: Download prod training outputs
         id: download
